@@ -32,7 +32,7 @@ url = 'https://archive-api.open-meteo.com/v1/archive'
 
 # --- Download and Save Loop ---
 for city, (lat, lon) in locations.items():
-    print(f"📡 Downloading data for {city.title()}...")
+    print(f"Downloading data for {city.title()}...")
 
     params = {
         'latitude': lat,
@@ -67,4 +67,4 @@ for city, (lat, lon) in locations.items():
     # Save to data/raw/
     filename = raw_dir / f"{city}_weather_2013_2023.csv"
     df.to_csv(filename)
-    print(f"✅ Saved: {filename}")
+    print(f"Saved: {filename}")
