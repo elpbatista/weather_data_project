@@ -25,7 +25,7 @@ weather_data_project/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/weather_data_project.git
+git clone https://github.com/elpbatista/weather_data_project.git
 cd weather_data_project
 ```
 
