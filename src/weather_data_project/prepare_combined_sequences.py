@@ -67,4 +67,4 @@ city_df = pd.DataFrame(city_all, columns=["city"])
 final_df = pd.concat([city_df, X_df, y_df], axis=1)
 out_path = processed_dir / "combined_cities_weather_2013_2023.csv"
 final_df.to_csv(out_path, index=False)
-print(f"✅ Combined dataset saved to: {out_path}")
+print(f"Combined dataset saved to: {out_path}")
