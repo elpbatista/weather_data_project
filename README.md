@@ -1,23 +1,38 @@
-# Weather Data Project
+# Weather Forecasting with SFA-LSTM
 
-This project automates the download, organization, and processing of hourly weather data for three Oregon cities in the Willamette Valley: Salem, Eugene, and Corvallis.
+This project implements a Spatial Feature Attention-based LSTM (SFA-LSTM) model for short-term temperature forecasting using hourly weather data. The implementation is inspired by the methodology presented in:
+
+> Suleman, M. A. R., & Shridevi, S. (2022). Short-term weather forecasting using spatial feature attention based LSTM model. *IEEE Access*. <https://doi.org/10.1109/ACCESS.2022.3196381>
 
 It uses the [Open-Meteo Historical Weather API](https://open-meteo.com/en/docs) and is structured for long-term reproducibility using [Poetry](https://python-poetry.org/).
 
-## Project Structure
+## Features
+
+- Multi-location weather data collection (Salem, Eugene, Corvallis, Oregon)
+- Data cleaning, sequence generation, and model training pipeline
+- Spatial feature attention for input variables
+- Model saving and visualization of predictions
+- Pipeline execution via a unified Python script with CLI options
+
+## Directory Structure
 
 ```text
 weather_data_project/
 ├── data/
-│   ├── raw/         # Raw data directly from Open-Meteo
-│   ├── interim/     # Cleaned/merged, not final
-│   └── processed/   # Final datasets ready for modeling
-├── pyproject.toml   # Poetry project and dependencies
-├── README.md
+│   ├── raw/            # Raw downloaded weather data
+│   ├── interim/        # Cleaned but unsequenced data
+│   ├── processed/      # Final sequences for modeling
+├── models/             # Trained SFA-LSTM models
+├── results/            # Evaluation plots and metrics
 ├── src/
 │   └── weather_data_project/
-│       └── download_weather_openmeteo.py
-└── tests/
+│       ├── download_weather_openmeteo.py
+│       ├── clean_data.py
+│       ├── prepare_sequences.py
+│       ├── combine_cities_sequences.py
+│       ├── train_sfa_lstm.py
+│       └── advanced_visualize_predictions.py
+├── run_pipeline.py     # Unified script for running the full workflow
 ```
 
 ## Quickstart
