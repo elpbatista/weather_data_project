@@ -8,7 +8,7 @@ It uses the [Open-Meteo Historical Weather API](https://open-meteo.com/en/docs) 
 
 ## Features
 
-- Multi-location weather data collection (Salem, Eugene, Corvallis, Oregon)
+- Multi-location weather data collection (Salem, Eugene, Corvallis)
 - Data cleaning, sequence generation, and model training pipeline
 - Spatial feature attention for input variables
 - Model saving and visualization of predictions
@@ -58,37 +58,34 @@ Then install the project dependencies:
 poetry install
 ```
 
-### 3. Run the Weather Data Download Script
+### 3. Usage
+
+Run the entire pipeline:
 
 ```bash
-poetry run python src/weather_data_project/download_weather_openmeteo.py
+python run_pipeline.py
 ```
 
-This will save hourly weather data (2013–2023) to:
+Or skip specific steps using CLI flags:
 
-```text
-data/raw/salem_weather_2013_2023.csv
-data/raw/eugene_weather_2013_2023.csv
-data/raw/corvallis_weather_2013_2023.csv
+```bash
+python run_pipeline.py --skip-download --skip-train
 ```
 
-## Features Downloaded
+#### Available Flags
 
-- Temperature (`temperature_2m`)
-- Dew Point (`dew_point_2m`)
-- Wind Chill / Apparent Temperature (`apparent_temperature`)
-- Relative Humidity (`relative_humidity_2m`)
-- Station Pressure (`surface_pressure`)
-- Sea Level Pressure (`pressure_msl`)
-- Wind Speed (`wind_speed_10m`)
+- `--skip-download`      Skip weather data download
+- `--skip-clean`         Skip data cleaning
+- `--skip-prepare`       Skip sequence preparation
+- `--skip-combine`       Skip combining datasets
+- `--skip-train`         Skip model training
+- `--skip-visualize`     Skip prediction visualization
 
-## Future Development Ideas
+## Citation
 
-- Clean and validate raw data to `data/interim/`
-- Generate analysis-ready data in `data/processed/`
-- Forecast temperature using models such as SFA-LSTM
-- Visualize time series trends across locations
-- Add CLI options, Makefile, or orchestration tools
+Please cite the original paper if you use this project in your work:
+
+> Suleman, M. A. R., & Shridevi, S. (2022). Short-term weather forecasting using spatial feature attention based LSTM model. *IEEE Access*. <https://doi.org/10.1109/ACCESS.2022.3196381>
 
 ## License
 
