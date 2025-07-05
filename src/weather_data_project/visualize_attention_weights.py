@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
-from tensorflow.keras.models import load_model
-from tensorflow.keras import Model
+from tensorflow.keras.models import load_model # type: ignore
+from tensorflow.keras import Model # type: ignore
 
 # Configuration
 sequence_length = 24

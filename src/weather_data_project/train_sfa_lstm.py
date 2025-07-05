@@ -4,8 +4,8 @@ from pathlib import Path
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import tensorflow as tf
-from tensorflow.keras.layers import Input, LSTM, Dense, Multiply, Softmax
-from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, LSTM, Dense, Multiply, Softmax # type: ignore
+from tensorflow.keras.models import Model # type: ignore
 
 # Configuration
 sequence_length = 24

@@ -1,40 +1,47 @@
 import argparse
 import subprocess
+import sys
+import time
+from pathlib import Path
 
 def run(script_name, label):
-    print(f"Step: {label}")
-    subprocess.run(["poetry", "run", "python", f"src/weather_data_project/{script_name}"], check=True)
+    print(f"\n{'='*40}\nStep: {label}\n{'='*40}")
+    start = time.time()
+    try:
+        subprocess.run(
+            ["poetry", "run", "python", str(Path("src/weather_data_project") / script_name)],
+            check=True
+        )
+    except subprocess.CalledProcessError as e:
+        print(f"Error during step '{label}': {e}", file=sys.stderr)
+        sys.exit(1)
+    print(f"Completed '{label}' in {time.time() - start:.1f} seconds.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the weather data pipeline.")
-    parser.add_argument("--skip-download", action="store_true", help="Skip weather data download")
-    parser.add_argument("--skip-clean", action="store_true", help="Skip data cleaning")
-    parser.add_argument("--skip-prepare", action="store_true", help="Skip sequence preparation")
-    parser.add_argument("--skip-combine", action="store_true", help="Skip dataset combining")
-    parser.add_argument("--skip-train", action="store_true", help="Skip model training")
-    parser.add_argument("--skip-visualize", action="store_true", help="Skip prediction visualization")
-    # parser.add_argument("--skip-attention", action="store_true", help="Skip attention visualization")
+    parser.add_argument("--only", nargs="+", help="Run only these steps (e.g. download clean train)")
+    parser.add_argument("--skip", nargs="+", help="Skip these steps (e.g. download train)")
     args = parser.parse_args()
 
-    if not args.skip_download:
-        run("download_weather_openmeteo.py", "Downloading weather data")
+    steps = [
+        ("download_weather_openmeteo.py", "Downloading weather data", "download"),
+        ("clean_data.py", "Cleaning raw data", "clean"),
+        ("prepare_sequences.py", "Preparing sequences", "prepare"),
+        ("prepare_combined_sequences.py", "Combining datasets", "combine"),
+        ("train_sfa_lstm.py", "Training SFA-LSTM models", "train"),
+        ("visualize_predictions.py", "Visualizing predictions", "visualize"),
+        ("advanced_visualize_predictions.py", "Visualizing advanced predictions", "advanced-visualize"),
+        # ("visualize_attention_weights.py", "Visualizing attention weights", "attention"),
+    ]
 
-    if not args.skip_clean:
-        run("clean_data.py", "Cleaning raw data")
+    if args.only:
+        only_set = set(args.only)
+        steps_to_run = [s for s in steps if s[2] in only_set]
+    else:
+        skip_set = set(args.skip) if args.skip else set()
+        steps_to_run = [s for s in steps if s[2] not in skip_set]
 
-    if not args.skip_prepare:
-        run("prepare_sequences.py", "Preparing sequences")
+    for script, label, _ in steps_to_run:
+        run(script, label)
 
-    if not args.skip_combine:
-        run("combine_cities_sequences.py", "Combining datasets")
-
-    if not args.skip_train:
-        run("train_sfa_lstm.py", "Training SFA-LSTM models")
-
-    if not args.skip_visualize:
-        run("advanced_visualize_predictions.py", "Visualizing predictions")
-
-    # if not args.skip_attention:
-    #     run("visualize_attention_weights.py", "Visualizing attention weights")
-
-    print("Pipeline complete.")
+    print("\nPipeline complete.")

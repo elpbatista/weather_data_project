@@ -60,26 +60,42 @@ poetry install
 
 ### 3. Usage
 
-Run the entire pipeline:
+#### Run the Entire Pipeline
 
 ```bash
-python run_pipeline.py
+poetry run python run_pipeline.py
 ```
 
-Or skip specific steps using CLI flags:
+#### Skip Specific Steps
+
+You can skip any step using the `--skip` flag followed by one or more step names:
 
 ```bash
-python run_pipeline.py --skip-download --skip-train
+poetry run python run_pipeline.py --skip download train
 ```
 
-#### Available Flags
+#### Run Only Selected Steps
 
-- `--skip-download`      Skip weather data download
-- `--skip-clean`         Skip data cleaning
-- `--skip-prepare`       Skip sequence preparation
-- `--skip-combine`       Skip combining datasets
-- `--skip-train`         Skip model training
-- `--skip-visualize`     Skip prediction visualization
+To run only specific steps, use the `--only` flag followed by one or more step names:
+
+```bash
+poetry run python run_pipeline.py --only download clean train
+```
+
+**Available step names for `--only` and `--skip`:**
+
+- `download`           Download weather data
+- `clean`              Clean raw data
+- `prepare`            Prepare sequences
+- `combine`            Combine datasets
+- `train`              Train SFA-LSTM models
+- `visualize`          Visualize predictions
+- `advanced-visualize` Advanced prediction visualization
+
+**All available flags**:
+
+- `--skip`   Skip the specified steps (see above)
+- `--only`   Run only the specified steps (see above)
 
 ## Citation
 
